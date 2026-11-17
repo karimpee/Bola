@@ -4,7 +4,7 @@
       "username": "andi",
       "verifyAnswer": "08111111111",
       "withdrawBlocked": true,
-      "withdrawReason": "Rekening tujuan belum diverifikasi, jadi withdrawal ditahan."
+      "withdrawReason": "The destination account is not verified, so the withdrawal is held."
     },
     {
       "username": "siti",

@@ -1,5 +1,5 @@
-# Menu
+# Menus
 
 | Folder | Status |
 | --- | --- |
-| `menu-pertama` | Sedang dikerjakan. Ganti nama folder ini kalau nama menu aslinya sudah pasti |
+| `first-menu` | In progress. Rename this folder when the real menu name is known |

@@ -1,7 +1,7 @@
 # Game system
 
-Sistem game punya banyak menu. Setiap menu punya foldernya sendiri di dalam `menus`.
+The game system has many menus. Each menu has its own folder inside `menus`.
 
-Sekarang hanya satu menu yang dikerjakan: `menus/menu-pertama`.
+Only one menu is in progress: `menus/first-menu`.
 
-Menu berikutnya ditambah dengan membuat folder baru di `menus`. Menu yang tidak dipakai dihapus dengan menghapus foldernya.
+Add the next menu by creating a new folder in `menus`. Remove an unused menu by deleting its folder.

@@ -25,8 +25,8 @@ function showWords() {
   state.verificationId = null;
   setComposer(
     "words",
-    `<label>Kata-kata customer<textarea name="text" required></textarea></label>
-     <button type="submit">Kirim</button>`
+    `<label>Customer words<textarea name="text" required></textarea></label>
+     <button type="submit">Send</button>`
   );
 }
 
@@ -34,16 +34,16 @@ function showVerifyForm() {
   setComposer(
     "verify",
     `<label>Username<input name="username" autocomplete="off" required></label>
-     <label>Jawaban verifikasi<input name="answer" autocomplete="off" required></label>
-     <button type="submit">Verifikasi</button>`
+     <label>Verification answer<input name="answer" autocomplete="off" required></label>
+     <button type="submit">Verify</button>`
   );
 }
 
 function showPasswordForm() {
   setComposer(
     "password",
-    `<label>Password baru<input name="newPassword" type="password" minlength="8" autocomplete="new-password" required></label>
-     <button type="submit">Ubah password</button>`
+    `<label>New password<input name="newPassword" type="password" minlength="8" autocomplete="new-password" required></label>
+     <button type="submit">Change password</button>`
   );
 }
 
@@ -55,7 +55,7 @@ async function postJson(url, body) {
   });
   const result = await response.json();
   if (!response.ok && !result.message) {
-    throw new Error("Permintaan gagal.");
+    throw new Error("Request failed.");
   }
   return result;
 }
@@ -84,7 +84,7 @@ composer.addEventListener("submit", async (event) => {
     if (state.mode === "verify") {
       const username = String(data.get("username") || "").trim();
       const answer = String(data.get("answer") || "").trim();
-      addMessage("user", `Verifikasi untuk ${username}`);
+      addMessage("user", `Verification for ${username}`);
       const result = await postJson("/api/verify", {
         username,
         answer,
@@ -101,7 +101,7 @@ composer.addEventListener("submit", async (event) => {
     }
 
     if (state.mode === "password") {
-      addMessage("user", "Password baru dikirim.");
+      addMessage("user", "New password sent.");
       const result = await postJson("/api/change-password", {
         verificationId: state.verificationId,
         newPassword: String(data.get("newPassword") || ""),
@@ -110,13 +110,13 @@ composer.addEventListener("submit", async (event) => {
       showWords();
     }
   } catch (error) {
-    addMessage("bot", "Meja CS tidak bisa membaca pesan itu. Password tidak diubah.");
+    addMessage("bot", "The desk could not read that message. The password was not changed.");
     showWords();
   }
 });
 
 addMessage(
   "bot",
-  "Tulis kata-kata customer apa adanya. Basa-basi, kalimat yang belum jelas, atau permintaan langsung semuanya bisa dikirim."
+  "Type the customer's own words. Small talk, an unclear sentence, or a direct request can all be sent."
 );
 showWords();

@@ -1,11 +1,11 @@
-# Percobaan lokal
+# Local trial
 
-Halaman meja CS di komputer ini. Ini percobaan, bukan automation yang tersambung ke sistem asli.
+A customer-service page on this computer. This is a trial. It is not connected to the real system.
 
-Jalankan dari folder ini:
+Run it from this folder:
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File .\server.ps1
 ```
 
-Buka http://127.0.0.1:8080/
+Open http://127.0.0.1:8080/

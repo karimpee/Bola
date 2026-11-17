@@ -1,14 +1,14 @@
-# Pengaturan
+# Settings
 
-Nama proyek: customer-service-automation
+Project name: customer-service-automation
 
-Bahasa customer:
+Customer language:
 
-Website verifikasi:
+Verification website:
 
-Bagian yang dipakai sekarang:
+Parts in use:
 
 - customer-service
-- game-system, satu menu
+- game-system, one menu
 
-Catatan:
+Notes:

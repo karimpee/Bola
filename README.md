@@ -1,23 +1,25 @@
 # Customer Service Automation
 
-Proyek ini tersimpan di GitHub: https://github.com/karimpee/AutoMatic
+This project is stored on GitHub: https://github.com/karimpee/AutoMatic
 
-Satu folder punya satu tugas. Mau menambah bagian baru, buat folder baru. Mau menghapus bagian, hapus folder itu. Bagian lain tidak perlu diubah.
+Each folder has one job. Add a part by creating a folder. Remove a part by deleting that folder. The other parts stay as they are.
 
-## Isi
+Project files are written in English.
 
-| Folder | Untuk apa |
+## Contents
+
+| Folder | Purpose |
 | --- | --- |
-| `configuration` | Pengaturan: alamat website, bahasa, bagian yang dinyalakan |
-| `customer-service` | Tanya jawab dengan customer. Flow yang diedit ada di sini |
-| `game-system` | Menu dalam sistem game. Satu menu = satu folder |
-| `documentation` | Tutorial dan catatan |
-| `experiments` | Percobaan lokal. Bukan bagian yang dipakai automation |
+| `configuration` | Settings: website address, language, and which parts are on |
+| `customer-service` | Customer questions and answers. Edit the flow here |
+| `game-system` | Menus inside the game system. One menu is one folder |
+| `documentation` | Tutorials and notes |
+| `experiments` | Local trials. Not used by the automation |
 
-## Yang sengaja belum dibuat
+## Not built yet
 
-Belum ada kode automation yang jalan sendiri. Flow dan menu pertama masih kosong, supaya isinya diisi oleh kamu.
+There is no automation that runs on its own yet. The flow and the first menu are blank so you can fill them in.
 
 ## Git
 
-Perubahan di folder ini yang sudah di-commit bisa dikirim ke GitHub dengan `git push`.
+Committed changes in this folder can be sent to GitHub with `git push`.

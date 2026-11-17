@@ -1,7 +1,9 @@
 # Documentation
 
-Catatan dan tutorial yang sudah disalin.
+Notes and copied tutorials.
 
-| File | Isi |
+| File | Contents |
 | --- | --- |
-| `tutorials/saas-tutorials.md` | 148 tutorial dari halaman tutorial SaaS |
+| `tutorials/saas-tutorials.md` | 148 tutorials copied from the SaaS tutorial page. The text is the original source language |
+
+Project notes in this folder are written in English. The copied tutorial file keeps the original wording from the admin site.

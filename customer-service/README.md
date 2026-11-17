@@ -1,5 +1,5 @@
 # Customer service
 
-Bagian tanya jawab. Customer menulis dengan kata-katanya sendiri.
+Question and answer with the customer. The customer writes in their own words.
 
-Flow yang boleh diedit ada di `flow.md`.
+Edit the flow in `flow.md`.

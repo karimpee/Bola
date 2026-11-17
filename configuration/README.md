@@ -1,5 +1,5 @@
 # Configuration
 
-Di sini hanya pengaturan. Percakapan customer dan langkah menu tidak ditulis di folder ini.
+This folder holds settings only. Customer conversation and menu steps do not belong here.
 
-Isi pengaturan ada di `settings.md`.
+Settings are in `settings.md`.

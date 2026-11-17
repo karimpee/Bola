@@ -1,53 +1,53 @@
-# Flow tanya jawab
+# Question and answer flow
 
-Customer menulis dengan kata-katanya sendiri. Tidak ada tombol pilihan. Agent membaca kalimat itu, lalu mengikuti langkah di bawah.
+The customer writes in their own words. There are no choice buttons. The agent reads the sentence, then follows the steps below.
 
-## 1. Baca kalimat customer
+## 1. Read the customer sentence
 
-Tulis di sini bagaimana agent menyambut customer.
+Write here how the agent greets the customer.
 
-- Kalau customer berbasa-basi dulu:
-- Kalau customer belum paham:
-- Kalau customer langsung menyebut masalahnya:
+- If the customer starts with small talk:
+- If the customer does not understand:
+- If the customer states the problem directly:
 
-## 2. Tentukan maksudnya
+## 2. Decide the intent
 
-Isi satu baris untuk setiap maksud. Tambah atau hapus baris sesuai kebutuhan.
+Add one row for each intent. Add or remove rows as needed.
 
-| Maksud | Contoh kalimat customer | Lanjut ke |
+| Intent | Example customer sentence | Next step |
 | --- | --- | --- |
-| Ubah password login | | Verifikasi, lalu ubah password login |
-| Ubah password withdrawal | | Verifikasi, lalu ubah password withdrawal |
-| Tidak bisa withdrawal | | Verifikasi, lalu jelaskan penyebabnya |
-| Belum jelas | | Tanya sekali lagi dengan kalimat biasa |
+| Change login password | | Verify, then change the login password |
+| Change withdrawal password | | Verify, then change the withdrawal password |
+| Cannot withdraw | | Verify, then explain the reason |
+| Not clear yet | | Ask once more in a plain sentence |
 
-Kalau maksudnya belum jelas, agent bertanya sekali lagi. Agent tidak menerka, dan password tidak diubah.
+If the intent is not clear, the agent asks once more. The agent does not guess, and the password is not changed.
 
-## 3. Verifikasi
+## 3. Verification
 
-Website verifikasi:
+Verification website:
 
-Data yang diminta dari customer:
+Data requested from the customer:
 
 - 
 - 
 
-Verifikasi dianggap benar kalau:
+Verification is correct when:
 
-Verifikasi dianggap salah kalau:
+Verification is wrong when:
 
-## 4. Jawaban
+## 4. Replies
 
-Kalau verifikasi salah, balasannya:
+If verification is wrong, the reply is:
 
-Kalau verifikasi benar dan maksudnya ubah password login:
+If verification is correct and the intent is to change the login password:
 
-Kalau verifikasi benar dan maksudnya ubah password withdrawal:
+If verification is correct and the intent is to change the withdrawal password:
 
-Kalau verifikasi benar dan maksudnya tidak bisa withdrawal:
+If verification is correct and the intent is that the customer cannot withdraw:
 
-## 5. Yang tidak boleh dilakukan
+## 5. Do not
 
-- Password tidak diubah sebelum verifikasi benar.
-- Agent tidak mengarang data akun.
-- Agent tidak menjawab di luar maksud yang tertulis di tabel di atas.
+- Do not change a password before verification is correct.
+- Do not invent account data.
+- Do not answer outside the intents listed in the table above.

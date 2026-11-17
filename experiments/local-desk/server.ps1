@@ -79,15 +79,15 @@ function Get-LocalVerify($username, $answer, $topic) {
   if ($null -eq $account -or (Normalize $account.verifyAnswer) -ne (Normalize $answer)) {
     return @{
       ok = $false
-      message = "Verifikasi belum sesuai. Data tidak sama dengan yang terdaftar. Password tidak diubah."
+      message = "Verification does not match the registered data. The password was not changed."
     }
   }
 
   if ($topic -eq "withdrawal_issue") {
     if ($account.withdrawBlocked) {
-      $message = "Verifikasi benar. Withdrawal belum bisa: $($account.withdrawReason)"
+      $message = "Verification matched. Withdrawal is not available: $($account.withdrawReason)"
     } else {
-      $message = "Verifikasi benar. Akun ini tidak sedang diblokir. Customer bisa mengajukan withdrawal."
+      $message = "Verification matched. This account is not blocked. The customer can request a withdrawal."
     }
     return @{ ok = $true; message = $message }
   }
@@ -96,7 +96,7 @@ function Get-LocalVerify($username, $answer, $topic) {
   return @{
     ok = $true
     verificationId = $id
-    message = "Verifikasi benar. Masukkan password baru untuk akun ini."
+    message = "Verification matched. Enter a new password for this account."
   }
 }
 
@@ -104,36 +104,36 @@ function Invoke-Verify($payload) {
   $topic = [string]$payload.topic
   $allowed = @("login_password", "withdrawal_password", "withdrawal_issue")
   if ($allowed -notcontains $topic) {
-    return @{ ok = $false; status = 400; message = "Jenis pertanyaan tidak dikenali. Password tidak diubah." }
+    return @{ ok = $false; status = 400; message = "The question type is not recognized. The password was not changed." }
   }
   if ([string]::IsNullOrWhiteSpace([string]$payload.username) -or [string]::IsNullOrWhiteSpace([string]$payload.answer)) {
-    return @{ ok = $false; status = 400; message = "Username dan jawaban verifikasi wajib diisi. Password tidak diubah." }
+    return @{ ok = $false; status = 400; message = "Username and verification answer are required. The password was not changed." }
   }
 
   if (-not [string]::IsNullOrWhiteSpace([string]$config.verifyApiUrl)) {
     try {
       $remote = Invoke-ExternalJson $config.verifyApiUrl $payload
     } catch {
-      return @{ ok = $false; status = 502; message = "API verifikasi tidak bisa dihubungi. Password tidak diubah." }
+      return @{ ok = $false; status = 502; message = "The verification API could not be reached. The password was not changed." }
     }
     if (-not $remote.ok) {
       $message = [string]$remote.message
       if ([string]::IsNullOrWhiteSpace($message)) {
-        $message = "Verifikasi belum sesuai. Password tidak diubah."
+        $message = "Verification did not match. The password was not changed."
       }
       return @{ ok = $false; message = $message }
     }
     if ($topic -eq "withdrawal_issue") {
       $message = [string]$remote.message
       if ([string]::IsNullOrWhiteSpace($message)) {
-        $message = "Verifikasi benar."
+        $message = "Verification matched."
       }
       return @{ ok = $true; message = $message }
     }
     $id = New-Verification ([string]$payload.username) $topic
     $message = [string]$remote.message
     if ([string]::IsNullOrWhiteSpace($message)) {
-      $message = "Verifikasi benar. Masukkan password baru untuk akun ini."
+      $message = "Verification matched. Enter a new password for this account."
     }
     return @{ ok = $true; verificationId = $id; message = $message }
   }
@@ -144,11 +144,11 @@ function Invoke-Verify($payload) {
 function Invoke-ChangePassword($payload) {
   $record = Get-Verification ([string]$payload.verificationId)
   if ($null -eq $record -or $record.Topic -eq "withdrawal_issue") {
-    return @{ ok = $false; status = 403; message = "Verifikasi belum berhasil. Password tidak diubah." }
+    return @{ ok = $false; status = 403; message = "Verification has not succeeded. The password was not changed." }
   }
   $newPassword = [string]$payload.newPassword
   if ($newPassword.Length -lt 8) {
-    return @{ ok = $false; status = 400; message = "Password baru minimal 8 karakter. Password belum diubah." }
+    return @{ ok = $false; status = 400; message = "The new password must be at least 8 characters. The password was not changed." }
   }
 
   $passwordType = "login"
@@ -167,18 +167,18 @@ function Invoke-ChangePassword($payload) {
         verificationId = [string]$payload.verificationId
       } | Out-Null
     } catch {
-      return @{ ok = $false; status = 502; message = "API ubah password tidak bisa dihubungi. Password tidak diubah." }
+      return @{ ok = $false; status = 502; message = "The password API could not be reached. The password was not changed." }
     }
   }
 
   $record.Used = $true
-  return @{ ok = $true; message = "Password $label untuk $($record.Username) sudah diubah." }
+  return @{ ok = $true; message = "The $label password for $($record.Username) has been changed." }
 }
 
 function Invoke-Understand($payload) {
   $text = Normalize ([string]$payload.text)
   if ([string]::IsNullOrWhiteSpace($text)) {
-    return @{ ok = $false; status = 400; topic = ""; message = "Kata-kata customer masih kosong." }
+    return @{ ok = $false; status = 400; topic = ""; message = "The customer words are empty." }
   }
 
   $aboutWithdraw = $text -match "withdraw|penarikan|\bwd\b|tarik"
@@ -190,42 +190,42 @@ function Invoke-Understand($payload) {
     return @{
       ok = $true
       topic = "withdrawal_issue"
-      message = "Baik. Customer tidak bisa melakukan withdrawal. Masukkan username dan jawaban verifikasi yang terdaftar."
+      message = "The customer cannot withdraw. Enter the username and the registered verification answer."
     }
   }
   if ($aboutWithdraw -and $aboutPassword) {
     return @{
       ok = $true
       topic = "withdrawal_password"
-      message = "Baik. Customer mau mengubah password withdrawal. Masukkan username dan jawaban verifikasi yang terdaftar."
+      message = "The customer wants to change the withdrawal password. Enter the username and the registered verification answer."
     }
   }
   if ($aboutPassword -or ($aboutLogin -and $aboutBlock)) {
     return @{
       ok = $true
       topic = "login_password"
-      message = "Baik. Customer mau mengubah password login. Masukkan username dan jawaban verifikasi yang terdaftar."
+      message = "The customer wants to change the login password. Enter the username and the registered verification answer."
     }
   }
   if ($text -match "pagi|siang|sore|malam|halo|hai|hei|terima kasih|makasih") {
     return @{
       ok = $true
       topic = ""
-      message = "Halo. Sampaikan saja masalah customer dalam satu kalimat."
+      message = "Hello. Ask the customer to state the problem in one sentence."
     }
   }
   if ($text -match "paham|mengerti|ngerti|bingung|gimana|bagaimana|maksud") {
     return @{
       ok = $true
       topic = ""
-      message = "Tidak apa-apa. Minta customer menceritakan masalahnya dengan kalimat biasa, misalnya tidak bisa masuk atau tidak bisa menarik dana."
+      message = "That is fine. Ask the customer to describe the problem in a plain sentence, such as being unable to sign in or unable to withdraw."
     }
   }
 
   return @{
     ok = $true
     topic = ""
-    message = "Kalimat itu sudah saya baca. Belum ada permintaan yang bisa dikerjakan. Minta customer menyebutkan masalahnya dalam satu kalimat."
+    message = "That sentence was read. There is no request that can be handled yet. Ask the customer to state the problem in one sentence."
   }
 }
 
@@ -240,7 +240,7 @@ function Handle-Request($context) {
       default { $null }
     }
     if ($null -eq $file) {
-      Send-Text $context 404 "text/plain; charset=utf-8" "Tidak ditemukan."
+      Send-Text $context 404 "text/plain; charset=utf-8" "Not found."
       return
     }
     $type = "text/html; charset=utf-8"
@@ -252,13 +252,13 @@ function Handle-Request($context) {
   }
 
   if ($context.Request.HttpMethod -ne "POST") {
-    Send-Json $context 405 @{ ok = $false; message = "Metode tidak didukung." }
+    Send-Json $context 405 @{ ok = $false; message = "Method is not supported." }
     return
   }
 
   $payload = Get-RequestBody $context.Request
   if ($null -eq $payload) {
-    Send-Json $context 400 @{ ok = $false; message = "Body permintaan kosong. Password tidak diubah." }
+    Send-Json $context 400 @{ ok = $false; message = "The request body is empty. The password was not changed." }
     return
   }
 
@@ -266,7 +266,7 @@ function Handle-Request($context) {
     "/api/understand" { Invoke-Understand $payload }
     "/api/verify" { Invoke-Verify $payload }
     "/api/change-password" { Invoke-ChangePassword $payload }
-    default { @{ ok = $false; status = 404; message = "API tidak ditemukan." } }
+    default { @{ ok = $false; status = 404; message = "API was not found." } }
   }
   $status = 200
   if ($result.ContainsKey("status")) {
@@ -281,7 +281,7 @@ function Handle-Request($context) {
 $listener = New-Object System.Net.HttpListener
 $listener.Prefixes.Add($prefix)
 $listener.Start()
-Write-Output "Meja CS siap di $prefix"
+Write-Output "Customer service desk ready at $prefix"
 
 try {
   while ($listener.IsListening) {
@@ -290,7 +290,7 @@ try {
       Handle-Request $context
     } catch {
       try {
-        Send-Json $context 500 @{ ok = $false; message = "Terjadi gangguan di meja CS. Password tidak diubah." }
+        Send-Json $context 500 @{ ok = $false; message = "The desk hit an error. The password was not changed." }
       } catch {
         $context.Response.Abort()
       }
