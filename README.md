@@ -1,6 +1,6 @@
 # Customer Service Automation
 
-This project is stored on GitHub: https://github.com/karimpee/AutoMatic
+This project is stored on GitHub: https://github.com/karimpee/Bola
 
 Each folder has one job. Add a part by creating a folder. Remove a part by deleting that folder. The other parts stay as they are.
 
