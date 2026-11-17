@@ -1,0 +1,16 @@
+{
+  "accounts": [
+    {
+      "username": "andi",
+      "verifyAnswer": "08111111111",
+      "withdrawBlocked": true,
+      "withdrawReason": "Rekening tujuan belum diverifikasi, jadi withdrawal ditahan."
+    },
+    {
+      "username": "siti",
+      "verifyAnswer": "siti@email.com",
+      "withdrawBlocked": false,
+      "withdrawReason": ""
+    }
+  ]
+}
